@@ -399,6 +399,7 @@ $(info - debug:     $(WITH_DEBUG))
 $(info - profiling: $(WITH_PROFILING))
 $(info - red-brick: $(WITH_RED_BRICK))
 $(info - hotplug:   $(HOTPLUG))
+$(info - systemd:   $(SYSTEMD))
 endif
 
 .PHONY: all clean
