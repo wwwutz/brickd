@@ -1,0 +1,12 @@
+[Unit]
+Description=brick daemon
+Requires=local-fs.target
+
+[Service]
+EnvironmentFile=-/etc/conf.d/brickd
+ExecStart=/usr/bin/brickd 
+Type=simple
+
+[Install]
+WantedBy=multi-user.target
+

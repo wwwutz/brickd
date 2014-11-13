@@ -118,6 +118,7 @@ endif
 
 ifeq ($(PLATFORM),Linux)
 	HOTPLUG := $(shell pkg-config --exists 'libusb-1.0 >= 1.0.16' && echo libusb || echo libusb \(if supported\))
+	SYSTEMD := $(shell pkg-config --exists 'systemd' && echo yes || echo no )
 ifeq ($(WITH_LIBUDEV),check)
 ifeq ($(HOTPLUG),libusb)
 	# libusb hotplug, libudev not required
@@ -457,8 +458,14 @@ else
 	$(E)$(INSTALL) -m 644 ../build_data/linux/etc/brickd-default.conf $(sysconfdir)/brickd.conf
 endif
 
+ifeq ($(SYSTEMD),yes)
+	@echo "CP brickd.service (systemd.service)"
+	$(E)$(INSTALL) -m 755 ../build_data/linux/etc/systemd/brickd.service /etc/systemd/system/multi-user.target.wants/
+else
 	@echo "CP brickd (init.d script)"
 	$(E)$(INSTALL) -m 755 ../build_data/linux/etc/init.d/brickd $(sysconfdir)/init.d
+endif
+
 
 	@echo "CP brickd.8 (manpage)"
 	$(E)$(INSTALL) -m 644 ../build_data/linux/usr/share/man/man8/brickd.8 $(datadir)/man/man8
